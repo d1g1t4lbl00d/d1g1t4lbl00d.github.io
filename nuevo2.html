@@ -35,6 +35,7 @@
     <p id="coinCount">DBZ: <span id="coins">0</span></p>
     <button id="connectButton" onclick="connectMetaMask()">Conectar con MetaMask</button>
     <button id="clickButton" onclick="incrementCoins()">¡Click aquí!</button>
+    <button id="transferButton" onclick="transferToMetaMask()">Transferir a MetaMask</button> <!-- Nuevo botón -->
     <h2>Powerups:</h2>
     <button onclick="buyPowerup(2)">x2 DBZ (Costo: 20 DBZ)</button>
     <button onclick="buyPowerup(5)">x5 DBZ (Costo: 50 DBZ)</button>
@@ -120,6 +121,40 @@
                 } catch (error) {
                     console.error(error);
                     alert('Ha ocurrido un error al conectar con MetaMask.');
+                }
+            } else {
+                alert('MetaMask no está instalado en tu navegador.');
+            }
+        }
+
+        // Función para transferir las monedas a MetaMask
+        async function transferToMetaMask() {
+            // Verificar que el usuario esté conectado a MetaMask
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Obtener la dirección de la billetera del usuario desde MetaMask
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const userWalletAddress = accounts[0];
+
+                    // Dirección del jugador
+                    const playerWalletAddress = userWalletAddress;
+
+                    // Dirección del origen de las monedas
+                    const sourceAddress = '0xa836383688301d4bdf68C0115576c09a3e36Eb09';
+
+                    // Cantidad de monedas a transferir
+                    const amountToTransfer = coins;
+
+                    // Aquí deberías llamar a una función en tu contrato inteligente que maneje la transferencia
+                    // por ejemplo: await contratoInteligente.transferirMonedas(playerWalletAddress, amountToTransfer, {from: sourceAddress});
+
+                    // Notificar al usuario que la transferencia fue exitosa
+                    alert(`¡Se han transferido ${amountToTransfer} monedas a tu billetera MetaMask desde la dirección ${sourceAddress}!`);
+                    coins = 0; // Reiniciar el contador de monedas
+                    document.getElementById('coins').innerText = coins;
+                } catch (error) {
+                    console.error(error);
+                    alert('Ha ocurrido un error al transferir las monedas a MetaMask.');
                 }
             } else {
                 alert('MetaMask no está instalado en tu navegador.');

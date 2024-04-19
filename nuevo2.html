@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectar con MetaMask</title>
+</head>
+<body>
+    <h1>Conectar con MetaMask</h1>
+    <p>Haz clic en el botón para conectar tu billetera de MetaMask:</p>
+    <button id="connectButton">Conectar con MetaMask</button>
+
+    <script>
+        // Función para conectar con MetaMask
+        async function conectarMetaMask() {
+            // Verificar si MetaMask está instalado
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Solicitar acceso a la billetera del usuario
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    alert('Conexión exitosa con MetaMask!');
+                } catch (error) {
+                    console.error(error);
+                    alert('Ha ocurrido un error al conectar con MetaMask.');
+                }
+            } else {
+                alert('MetaMask no está instalado en tu navegador.');
+            }
+        }
+
+        // Agregar un evento de clic al botón
+        document.getElementById('connectButton').addEventListener('click', conectarMetaMask);
+    </script>
+</body>
+</html>

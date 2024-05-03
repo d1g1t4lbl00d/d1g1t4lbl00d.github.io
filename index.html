@@ -55,6 +55,20 @@
                 <input type="password" id="password" name="password" required>
                 <input type="submit" value="Iniciar Sesión">
             </form>
+            <p>¿No tienes una cuenta? <button onclick="showRegistration()">Registrarse</button></p>
+        </div>
+
+        <!-- Página de registro -->
+        <div id="registrationPage" style="display:none;">
+            <h2>Registro</h2>
+            <form id="registerForm" onsubmit="register(); return false;">
+                <label for="newUsername">Nuevo Nombre de Usuario:</label>
+                <input type="text" id="newUsername" name="newUsername" required>
+                <label for="newPassword">Nueva Contraseña:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+                <input type="submit" value="Registrarse">
+            </form>
+            <p>¿Ya tienes una cuenta? <a href="#" onclick="showLogin()">Inicia Sesión</a></p>
         </div>
 
         <!-- Página de gestión de gastos -->
@@ -80,12 +94,31 @@
             }
         }
 
+        function register() {
+            var newUsername = document.getElementById("newUsername").value;
+            var newPassword = document.getElementById("newPassword").value;
+
+            // Aquí puedes agregar la lógica para registrar un nuevo usuario (por ejemplo, enviar una solicitud al servidor)
+            alert("Usuario registrado correctamente. Por favor, inicia sesión.");
+            showLogin();
+        }
+
         function logout() {
             localStorage.removeItem("token"); // Elimina el token de autenticación del almacenamiento local
             document.getElementById("loginPage").style.display = "block";
             document.getElementById("expensePage").style.display = "none";
             document.getElementById("username").value = "";
             document.getElementById("password").value = "";
+        }
+
+        function showRegistration() {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("registrationPage").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("registrationPage").style.display = "none";
+            document.getElementById("loginPage").style.display = "block";
         }
 
         window.addEventListener("load", function() {

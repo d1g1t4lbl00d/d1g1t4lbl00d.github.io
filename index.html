@@ -5,7 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Gastos</title>
     <style>
-        /* Estilos CSS aquí */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            padding: 0 20px;
+            max-width: 600px;
+        }
+        input[type="text"], input[type="password"], select, input[type="number"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -15,51 +60,132 @@
     <div class="container">
         <!-- Página de inicio de sesión -->
         <div id="loginPage">
-            <!-- Código de inicio de sesión aquí -->
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Iniciar Sesión">
+            </form>
+            <p>¿No tienes una cuenta? <a href="#" onclick="showRegistration()">Regístrate</a></p>
         </div>
 
         <!-- Página de registro -->
         <div id="registrationPage" style="display:none;">
-            <!-- Código de registro aquí -->
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <label for="newUsername">Nuevo Nombre de Usuario:</label>
+                <input type="text" id="newUsername" name="newUsername" required>
+                <label for="newPassword">Nueva Contraseña:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+                <input type="submit" value="Registrarse">
+            </form>
+            <p>¿Ya tienes una cuenta? <a href="#" onclick="showLogin()">Inicia Sesión</a></p>
         </div>
 
-        <!-- Página de gestión de gastos -->
-        <div id="expensePage" style="display:none;">
-            <h2>Bienvenido al Gestor de Gastos</h2>
-            <form id="expenseForm" onsubmit="addExpense(); return false;">
+        <!-- Historial de gastos (visible después del inicio de sesión) -->
+        <div id="expenseHistory" style="display:none;">
+            <h2>Historial de Gastos</h2>
+            <table id="expenseTable">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseList">
+                    <!-- Aquí se mostrarán los gastos -->
+                </tbody>
+            </table>
+            <h2>Agregar Nuevo Gasto</h2>
+            <form id="expenseForm">
                 <label for="category">Categoría:</label>
-                <select id="category">
+                <select id="category" name="category">
                     <option value="ocio">Ocio</option>
-                    <option value="comida">Comida</option>
                     <option value="transporte">Transporte</option>
+                    <option value="comida">Comida</option>
+                    <option value="otros">Otros</option>
+                    <option value="Ahorros">Ahorros</option>
+                    <option value="facturas">Facturas</option>
                     <option value="ropa">Ropa</option>
-                    <!-- Agrega más opciones de categoría según sea necesario -->
+                    <option value="regalos">Regalos</option>
+                    <option value="comer_fuera">ComerFuera</option>
+                    <!-- Agrega más opciones de categorías según necesites -->
                 </select>
                 <label for="description">Descripción:</label>
-                <input type="text" id="description" required>
+                <input type="text" id="description" name="description" required>
                 <label for="amount">Cantidad:</label>
-                <input type="number" id="amount" min="0" step="0.01" required>
+                <input type="number" id="amount" name="amount" min="0" step="0.01" required>
                 <input type="submit" value="Agregar Gasto">
             </form>
-            <h3>Historial de Gastos</h3>
-            <label for="filter">Filtrar por categoría:</label>
-            <select id="filter" onchange="filterExpenses()">
-                <option value="all">Todos</option>
-                <option value="ocio">Ocio</option>
-                <option value="comida">Comida</option>
-                <option value="transporte">Transporte</option>
-                <option value="ropa">Ropa</option>
-                <!-- Agrega más opciones de categoría según sea necesario -->
-            </select>
-            <ul id="expenseList"></ul>
-            <p><a href="#" onclick="logout();">Cerrar Sesión</a></p>
+            <button onclick="logout()">Cerrar Sesión</button>
         </div>
     </div>
 
     <script>
-        var expenses = [];
+        // Simulación de datos de usuario y gastos (reemplaza esto con tu backend real)
+        var users = [
+            { username: "usuario1", password: "contraseña1", expenses: [] },
+            { username: "usuario2", password: "contraseña2", expenses: [] }
+        ];
 
-        function addExpense() {
+        function showRegistration() {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("registrationPage").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("registrationPage").style.display = "none";
+            document.getElementById("loginPage").style.display = "block";
+        }
+
+        function logout() {
+            document.getElementById("loginPage").style.display = "block";
+            document.getElementById("expenseHistory").style.display = "none";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+
+        function showExpenseHistory(user) {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("expenseHistory").style.display = "block";
+            var expenseList = document.getElementById("expenseList");
+            expenseList.innerHTML = "";
+            user.expenses.forEach(function(expense) {
+                var newRow = "<tr><td>" + expense.category + "</td><td>" + expense.description + "</td><td>" + expense.amount.toFixed(2) + "</td></tr>";
+                expenseList.insertAdjacentHTML('beforeend', newRow);
+            });
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                showExpenseHistory(user);
+            } else {
+                alert("Nombre de usuario o contraseña incorrectos.");
+            }
+        });
+
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var newUsername = document.getElementById("newUsername").value;
+            var newPassword = document.getElementById("newPassword").value;
+            if (users.some(u => u.username === newUsername)) {
+                alert("El nombre de usuario ya está en uso.");
+            } else {
+                users.push({ username: newUsername, password: newPassword, expenses: [] });
+                alert("¡Registrado exitosamente! Por favor, inicia sesión.");
+                showLogin();
+            }
+        });
+
+        document.getElementById("expenseForm").addEventListener("submit", function(event) {
+            event.preventDefault();
             var category = document.getElementById("category").value;
             var description = document.getElementById("description").value;
             var amount = parseFloat(document.getElementById("amount").value);
@@ -69,33 +195,15 @@
                 return;
             }
 
-            expenses.push({ category: category, description: description, amount: amount });
-            showExpenseHistory();
-            document.getElementById("expenseForm").reset();
-        }
+            var user = users.find(u => u.username === document.getElementById("username").value);
+            var expense = { category: category, description: description, amount: amount };
+            user.expenses.push(expense);
+            showExpenseHistory(user);
 
-        function filterExpenses() {
-            var category = document.getElementById("filter").value;
-            if (category === "all") {
-                showExpenseHistory();
-            } else {
-                var filteredExpenses = expenses.filter(expense => expense.category === category);
-                showExpenseHistory(filteredExpenses);
-            }
-        }
-
-        function showExpenseHistory(filteredExpenses) {
-            var expenseList = document.getElementById("expenseList");
-            expenseList.innerHTML = "";
-            var displayExpenses = filteredExpenses || expenses;
-            displayExpenses.forEach(function(expense) {
-                var listItem = document.createElement("li");
-                listItem.textContent = `${expense.category}: ${expense.description} - ${expense.amount.toFixed(2)}€`;
-                expenseList.appendChild(listItem);
-            });
-        }
-
-        // Resto del código de autenticación y registro aquí...
+            document.getElementById("category").value = "ocio";
+            document.getElementById("description").value = "";
+            document.getElementById("amount").value = "";
+        });
     </script>
 </body>
 </html>

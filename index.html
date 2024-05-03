@@ -1,225 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TORIYAMA (DBZ) - The Ultimate Cryptocurrency</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Gestor de Gastos</title>
     <style>
-        /* Estilos CSS */
         body {
-            font-family: 'Roboto', sans-serif; /* Utilizando Google Fonts */
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            background: url('BACKGROUND.jpg') no-repeat center center;
-            background-size: cover;
-            background-color: #000; /* Fallback color */
-            /* background-attachment: fixed; */ /* Eliminar esta línea para que el fondo se desplace con el contenido */
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
         }
         .container {
-            width: 90%;
-            margin: 0 auto;
-            overflow: hidden;
-            padding-top: 180px;
-            transition: opacity 0.5s ease; /* Transición de opacidad */
+            margin: 20px auto;
+            padding: 0 20px;
+            max-width: 600px;
         }
-        section {
-            padding: 50px 0;
-            text-align: center;
-            color: #fff; /* Color de texto predeterminado */
-        }
-        section.fade-out {
-            opacity: 0; /* Opacidad baja para desvanecerse */
-        }
-        section h2 {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        section p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .contract-address {
-            font-size: 20px;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #1abc9c, #3498db); /* Gradient background */
-            border-radius: 25px; /* Hacemos los bordes redondeados */
-            padding: 15px 30px;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Animación de cambio de color */
-            display: inline-block;
-            text-decoration: none;
-        }
-        .verify-contract, .swap-button, .play-now-button {
-            color: #fff;
-            text-decoration: none;
-            border-radius: 25px; /* Hacemos los bordes redondeados */
-            padding: 15px 30px;
-            font-size: 20px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Animación de cambio de color */
-        }
-        .verify-contract:hover, .swap-button:hover, .play-now-button:hover {
-            cursor: pointer; /* Cambiamos el cursor al pasar por encima */
-        }
-        .verify-contract {
-            background: linear-gradient(45deg, #1abc9c, #3498db); /* Gradient background */
-        }
-        .verify-contract:hover {
-            background: linear-gradient(45deg, #16a085, #2980b9); /* Gradient background al hacer hover */
-        }
-        .swap-button {
-            background: linear-gradient(45deg, #3498db, #1abc9c); /* Gradient background */
-        }
-        .swap-button:hover {
-            background: linear-gradient(45deg, #2980b9, #16a085); /* Gradient background al hacer hover */
-        }
-        .play-now-button {
-            background: linear-gradient(45deg, #3498db, #1abc9c); /* Gradient background */
-        }
-        .play-now-button:hover {
-            background: linear-gradient(45deg, #2980b9, #16a085); /* Gradient background al hacer hover */
-        }
-        footer {
-            background-color: transparent;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-        }
-        footer p {
-            margin: 0;
-            font-size: 16px;
-        }
-        #loader-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        input[type="text"], input[type="password"], select, input[type="number"], input[type="submit"] {
             width: 100%;
-            height: 100%;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
-        #loader-video {
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        table {
             width: 100%;
-            height: 100%;
+            border-collapse: collapse;
         }
-        #loader-content {
-            display: none;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
         }
-
-        /* Estilo para el contenedor del botón "SWAP NOW" */
-        .swap-button-container {
-            margin-bottom: 20px;
-        }
-        /* Estilo para el contenedor del botón "Play Now" */
-        .play-now-button-container {
-            margin-bottom: 40px; /* Cambiado para separar más del resto de botones */
+        th {
+            background-color: #4CAF50;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <!-- Pantalla de carga -->
-    <div id="loader-container">
-        <video id="loader-video" autoplay muted onended="stopVideo()">
-            <source src="video_carga.mp4" type="video/mp4"> <!-- Ajustar la ruta del video aquí -->
-            Your browser does not support the video tag.
-        </video>
+    <header>
+        <h1>Gestor de Gastos</h1>
+    </header>
+    <div class="container">
+        <!-- Página de inicio de sesión -->
+        <div id="loginPage">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Iniciar Sesión">
+            </form>
+            <p>¿No tienes una cuenta? <a href="#" onclick="showRegistration()">Regístrate</a></p>
+        </div>
+
+        <!-- Página de registro -->
+        <div id="registrationPage" style="display:none;">
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <label for="newUsername">Nuevo Nombre de Usuario:</label>
+                <input type="text" id="newUsername" name="newUsername" required>
+                <label for="newPassword">Nueva Contraseña:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+                <input type="submit" value="Registrarse">
+            </form>
+            <p>¿Ya tienes una cuenta? <a href="#" onclick="showLogin()">Inicia Sesión</a></p>
+        </div>
+
+        <!-- Historial de gastos (visible después del inicio de sesión) -->
+        <div id="expenseHistory" style="display:none;">
+            <h2>Historial de Gastos</h2>
+            <table id="expenseTable">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseList">
+                    <!-- Aquí se mostrarán los gastos -->
+                </tbody>
+            </table>
+            <h2>Agregar Nuevo Gasto</h2>
+            <form id="expenseForm">
+                <label for="category">Categoría:</label>
+                <select id="category" name="category">
+                    <option value="ocio">Ocio</option>
+                    <option value="comida">Comida</option>
+                    <!-- Agrega más opciones de categorías según necesites -->
+                </select>
+                <label for="description">Descripción:</label>
+                <input type="text" id="description" name="description" required>
+                <label for="amount">Cantidad:</label>
+                <input type="number" id="amount" name="amount" min="0" step="0.01" required>
+                <input type="submit" value="Agregar Gasto">
+            </form>
+            <button onclick="logout()">Cerrar Sesión</button>
+        </div>
     </div>
 
-    <section id="contract-address">
-        <div class="container">
-            <div class="big-popup">
-                <p class="contract-address">Contract Address: 0x9c39aF2AFfc4c42d432CF21A57D80B0ac22E42f1</p>
-                <a href="https://bscscan.com/address/0x9c39aF2AFfc4c42d432CF21A57D80B0ac22E42f1#code" class="verify-contract">CONTRACT VERIFIED!</a>
-            </div>
-        </div>
-    </section>
-    <section id="hero">
-        <div class="container">
-            <div class="swap-button-container"> <!-- Contenedor del botón "SWAP NOW" -->
-                <a href="https://pancakeswap.finance/swap?inputCurrency=BNB&outputCurrency=0x9c39aF2AFfc4c42d432CF21A57D80B0ac22E42f1" class="swap-button">SWAP NOW</a>
-            </div>
-            <div class="dextools-widget-container">
-                <iframe id="dextools-widget"
-                    title="DEXTools Trading Chart"
-                    width="500" height="400"
-                    src="https://www.dextools.io/widget-chart/es/bnb/pe-light/0x87ae8104d92f0846868fed5593f26bf705d105c1?theme=dark&chartType=2&chartResolution=30&drawingToolbars=false"></iframe>
-            </div>
-        </div>
-    </section>
-    <section id="play-now">
-        <div class="container">
-            <div class="play-now-button-container"> <!-- Contenedor del botón "Play Now" -->
-                <a href="nuevo2.html" class="play-now-button">PLAY NOW</a>
-            </div>
-        </div>
-    </section>
-    <section id="about">
-        <div class="container">
-            <h2>About TORIYAMA (DBZ)</h2>
-            <p>TORIYAMA is a cryptocurrency designed for true Dragon Ball Z fans. Inspired by the legendary creator of the series, Akira Toriyama, and the iconic anime saga. TORIYAMA aims to capture the essence of the Dragon Ball Z universe and create a virtual space, based on blockchain technology, where people can interact with each other.</p>
-            <p>A digital world inspired by places and characters from Dragon Ball Z, where users can interact, trade digital assets based on cryptocurrencies, participate in games or competitions, and many more activities.</p>
-            <p>One of the most anticipated events by the TORIYAMA community would be Akira Toriyama's anniversary, celebrated every March 1st, with a token burn in his honor, where the entire community can participate.</p>
-        </div>
-    </section>
-    <section id="features">
-        <div class="container">
-            <h2>Key Features</h2>
-            <ul>
-                <li>Based on blockchain technology</li>
-                <li>Secure and transparent</li>
-                <li>Active community of Dragon Ball Z fans</li>
-                <li>Fast and scalable</li>
-            </ul>
-        </div>
-    </section>
-    <section id="team">
-        <div class="container">
-            <h2>Our Team</h2>
-            <p>Formed by cryptography experts and passionate about Dragon Ball Z. We are committed to the mission of bringing TORIYAMA to success and realizing the potential of the digital universe that will forever pay tribute to Akira's figure.Do you want to work with us? <a href="mailto:toriyamaDBZ@hotmail.com">Contact us!</a></p>
-        </div>
-    </section>
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 TORIYAMA (DBZ) - The Ultimate Cryptocurrency</p>
-        </div>
-    </footer>
-
-    <!-- Script para ocultar la pantalla de carga después de que se cargue la página -->
     <script>
-        function stopVideo() {
-            var video = document.getElementById('loader-video');
-            video.pause();
-            video.currentTime = 0;
-            document.getElementById('loader-container').style.display = 'none';
-            document.getElementById('loader-content').style.display = 'block';
-        }
+        // Simulación de datos de usuario y gastos (reemplaza esto con tu backend real)
+        var users = [
+            { username: "usuario1", password: "contraseña1", expenses: [] },
+            { username: "usuario2", password: "contraseña2", expenses: [] }
+        ];
 
-        window.addEventListener('scroll', function() {
-            var scrollPosition = window.scrollY;
-            var paddingLimit = 80; // Establecer el límite de padding superior en píxeles
-
-            // Verificar si el desplazamiento ha superado el límite de padding superior
-            if (scrollPosition < paddingLimit) {
-                // Ocultar el contenido que ha superado el límite de padding superior
-                document.querySelectorAll('.container').forEach(function(element) {
-                    element.classList.add('fade-out'); // Agregar clase para desvanecer
-                });
-            } else {
-                // Mostrar todo el contenido si el desplazamiento está por debajo del límite de padding superior
-                document.querySelectorAll('.container').forEach(function(element) {
-                    element.classList.remove('fade-out'); // Quitar clase para desvanecer
-                });
+        // Cuando cargues la página
+        window.addEventListener("load", function() {
+            var storedUsername = localStorage.getItem("username");
+            if (storedUsername) {
+                document.getElementById("username").value = storedUsername; // Autocompletar el campo de nombre de usuario en el formulario de inicio de sesión
             }
         });
-    </script>
 
-    <!-- Enlace a la fuente de Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+        function showRegistration() {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("registrationPage").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("registrationPage").style.display = "none";
+            document.getElementById("loginPage").style.display = "block";
+        }
+
+        function logout() {
+            localStorage.removeItem("username"); // Eliminar el nombre de usuario del almacenamiento local al cerrar sesión
+            document.getElementById("loginPage").style.display = "block";
+            document.getElementById("expenseHistory").style.display = "none";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+
+        function showExpenseHistory(user) {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("expenseHistory").style.display = "block";
+            var expenseList = document.getElementById("expenseList");
+            expenseList.innerHTML = "";
+            user.expenses.forEach(function(expense) {
+                var newRow = "<tr><td>" + expense.category + "</td><td>" + expense.description + "</td><td>" + expense.amount.toFixed(2) + "</td></tr>";
+                expenseList.insertAdjacentHTML('beforeend', newRow);
+            });
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                showExpenseHistory(user);
+                localStorage.setItem("username", username); // Guardar el nombre de usuario en el almacenamiento local al iniciar sesión
+            } else {
+                alert("Nombre de usuario o contraseña incorrectos.");
+            }
+        });
+
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var newUsername = document.getElementById("newUsername").value;
+            var newPassword = document.getElementById("newPassword").value;
+            if (users.some(u => u.username === newUsername)) {
+                alert("El nombre de usuario ya está en uso.");
+            } else {
+                users.push({ username: newUsername, password: newPassword, expenses: [] });
+                alert("¡Registrado exitosamente! Por favor, inicia sesión.");
+                showLogin();
+            }
+        });
+
+        document.getElementById("expenseForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var category = document.getElementById("category").value;
+            var description = document.getElementById("description").value;
+            var amount = parseFloat(document.getElementById("amount").value);
+
+            if (isNaN(amount)) {
+                alert("Por favor, introduce una cantidad válida.");
+                return;
+            }
+
+            var user = users.find(u => u.username === document.getElementById("username").value);
+            var expense = { category: category, description: description, amount: amount };
+            user.expenses.push(expense);
+            showExpenseHistory(user);
+
+            document.getElementById("category").value = "ocio";
+            document.getElementById("description").value = "";
+            document.getElementById("amount").value = "";
+        });
+    </script>
 </body>
 </html>

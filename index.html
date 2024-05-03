@@ -21,7 +21,7 @@
             padding: 0 20px;
             max-width: 600px;
         }
-        input[type="text"], input[type="password"], select, input[type="number"], input[type="submit"] {
+        input[type="text"], input[type="password"], input[type="submit"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
@@ -38,19 +38,6 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -61,151 +48,52 @@
         <!-- Página de inicio de sesión -->
         <div id="loginPage">
             <h2>Iniciar Sesión</h2>
-            <form id="loginForm">
+            <form id="loginForm" onsubmit="login(); return false;">
                 <label for="username">Nombre de Usuario:</label>
                 <input type="text" id="username" name="username" required>
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password" required>
                 <input type="submit" value="Iniciar Sesión">
             </form>
-            <p>¿No tienes una cuenta? <a href="#" onclick="showRegistration()">Regístrate</a></p>
         </div>
 
-        <!-- Página de registro -->
-        <div id="registrationPage" style="display:none;">
-            <h2>Registro</h2>
-            <form id="registerForm">
-                <label for="newUsername">Nuevo Nombre de Usuario:</label>
-                <input type="text" id="newUsername" name="newUsername" required>
-                <label for="newPassword">Nueva Contraseña:</label>
-                <input type="password" id="newPassword" name="newPassword" required>
-                <input type="submit" value="Registrarse">
-            </form>
-            <p>¿Ya tienes una cuenta? <a href="#" onclick="showLogin()">Inicia Sesión</a></p>
-        </div>
-
-        <!-- Historial de gastos (visible después del inicio de sesión) -->
-        <div id="expenseHistory" style="display:none;">
-            <h2>Historial de Gastos</h2>
-            <table id="expenseTable">
-                <thead>
-                    <tr>
-                        <th>Categoría</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody id="expenseList">
-                    <!-- Aquí se mostrarán los gastos -->
-                </tbody>
-            </table>
-            <h2>Agregar Nuevo Gasto</h2>
-            <form id="expenseForm">
-                <label for="category">Categoría:</label>
-                <select id="category" name="category">
-                    <option value="ocio">Ocio</option>
-                    <option value="comida">Comida</option>
-                    <!-- Agrega más opciones de categorías según necesites -->
-                </select>
-                <label for="description">Descripción:</label>
-                <input type="text" id="description" name="description" required>
-                <label for="amount">Cantidad:</label>
-                <input type="number" id="amount" name="amount" min="0" step="0.01" required>
-                <input type="submit" value="Agregar Gasto">
-            </form>
-            <button onclick="logout()">Cerrar Sesión</button>
+        <!-- Página de gestión de gastos -->
+        <div id="expensePage" style="display:none;">
+            <h2>Bienvenido al Gestor de Gastos</h2>
+            <!-- Aquí puedes agregar la interfaz de gestión de gastos -->
+            <p><a href="#" onclick="logout();">Cerrar Sesión</a></p>
         </div>
     </div>
 
     <script>
-        // Simulación de datos de usuario y gastos (reemplaza esto con tu backend real)
-        var users = [
-            { username: "usuario1", password: "contraseña1", expenses: [] },
-            { username: "usuario2", password: "contraseña2", expenses: [] }
-        ];
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
 
-        // Cuando cargues la página
-        window.addEventListener("load", function() {
-            var storedUsername = localStorage.getItem("username");
-            if (storedUsername) {
-                document.getElementById("username").value = storedUsername; // Autocompletar el campo de nombre de usuario en el formulario de inicio de sesión
+            // Verifica si el nombre de usuario y la contraseña coinciden (simplificado)
+            if (username === "usuario" && password === "contraseña") {
+                localStorage.setItem("token", "token_de_autenticacion"); // Guarda un token de autenticación en el almacenamiento local
+                document.getElementById("loginPage").style.display = "none";
+                document.getElementById("expensePage").style.display = "block";
+            } else {
+                alert("Nombre de usuario o contraseña incorrectos.");
             }
-        });
-
-        function showRegistration() {
-            document.getElementById("loginPage").style.display = "none";
-            document.getElementById("registrationPage").style.display = "block";
-        }
-
-        function showLogin() {
-            document.getElementById("registrationPage").style.display = "none";
-            document.getElementById("loginPage").style.display = "block";
         }
 
         function logout() {
-            localStorage.removeItem("username"); // Eliminar el nombre de usuario del almacenamiento local al cerrar sesión
+            localStorage.removeItem("token"); // Elimina el token de autenticación del almacenamiento local
             document.getElementById("loginPage").style.display = "block";
-            document.getElementById("expenseHistory").style.display = "none";
+            document.getElementById("expensePage").style.display = "none";
             document.getElementById("username").value = "";
             document.getElementById("password").value = "";
         }
 
-        function showExpenseHistory(user) {
-            document.getElementById("loginPage").style.display = "none";
-            document.getElementById("expenseHistory").style.display = "block";
-            var expenseList = document.getElementById("expenseList");
-            expenseList.innerHTML = "";
-            user.expenses.forEach(function(expense) {
-                var newRow = "<tr><td>" + expense.category + "</td><td>" + expense.description + "</td><td>" + expense.amount.toFixed(2) + "</td></tr>";
-                expenseList.insertAdjacentHTML('beforeend', newRow);
-            });
-        }
-
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var user = users.find(u => u.username === username && u.password === password);
-            if (user) {
-                showExpenseHistory(user);
-                localStorage.setItem("username", username); // Guardar el nombre de usuario en el almacenamiento local al iniciar sesión
-            } else {
-                alert("Nombre de usuario o contraseña incorrectos.");
+        window.addEventListener("load", function() {
+            var token = localStorage.getItem("token");
+            if (token) {
+                document.getElementById("loginPage").style.display = "none";
+                document.getElementById("expensePage").style.display = "block";
             }
-        });
-
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            var newUsername = document.getElementById("newUsername").value;
-            var newPassword = document.getElementById("newPassword").value;
-            if (users.some(u => u.username === newUsername)) {
-                alert("El nombre de usuario ya está en uso.");
-            } else {
-                users.push({ username: newUsername, password: newPassword, expenses: [] });
-                alert("¡Registrado exitosamente! Por favor, inicia sesión.");
-                showLogin();
-            }
-        });
-
-        document.getElementById("expenseForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            var category = document.getElementById("category").value;
-            var description = document.getElementById("description").value;
-            var amount = parseFloat(document.getElementById("amount").value);
-
-            if (isNaN(amount)) {
-                alert("Por favor, introduce una cantidad válida.");
-                return;
-            }
-
-            var user = users.find(u => u.username === document.getElementById("username").value);
-            var expense = { category: category, description: description, amount: amount };
-            user.expenses.push(expense);
-            showExpenseHistory(user);
-
-            document.getElementById("category").value = "ocio";
-            document.getElementById("description").value = "";
-            document.getElementById("amount").value = "";
         });
     </script>
 </body>

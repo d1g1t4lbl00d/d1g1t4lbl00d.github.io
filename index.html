@@ -5,39 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Gastos</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            margin: 20px auto;
-            padding: 0 20px;
-            max-width: 600px;
-        }
-        input[type="text"], input[type="password"], input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
+        /* Estilos CSS aquí */
     </style>
 </head>
 <body>
@@ -74,18 +42,25 @@
         <!-- Página de gestión de gastos -->
         <div id="expensePage" style="display:none;">
             <h2>Bienvenido al Gestor de Gastos</h2>
-            <!-- Aquí puedes agregar la interfaz de gestión de gastos -->
+            <!-- Contenido del gestor de gastos -->
             <p><a href="#" onclick="logout();">Cerrar Sesión</a></p>
         </div>
     </div>
 
     <script>
+        // Objeto para simular la base de datos de usuarios
+        var users = [
+            { username: "usuario1", password: "contraseña1" },
+            { username: "usuario2", password: "contraseña2" }
+        ];
+
         function login() {
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
 
-            // Verifica si el nombre de usuario y la contraseña coinciden (simplificado)
-            if (username === "usuario" && password === "contraseña") {
+            // Verifica si el nombre de usuario y la contraseña coinciden con los datos de los usuarios
+            var user = users.find(u => u.username === username && u.password === password);
+            if (user) {
                 localStorage.setItem("token", "token_de_autenticacion"); // Guarda un token de autenticación en el almacenamiento local
                 document.getElementById("loginPage").style.display = "none";
                 document.getElementById("expensePage").style.display = "block";
@@ -98,7 +73,8 @@
             var newUsername = document.getElementById("newUsername").value;
             var newPassword = document.getElementById("newPassword").value;
 
-            // Aquí puedes agregar la lógica para registrar un nuevo usuario (por ejemplo, enviar una solicitud al servidor)
+            // Agrega un nuevo usuario al objeto users (simulado)
+            users.push({ username: newUsername, password: newPassword });
             alert("Usuario registrado correctamente. Por favor, inicia sesión.");
             showLogin();
         }
